@@ -82,6 +82,7 @@ public class Deck {
     public void dealCard(Player player) {
         Card dealCard = removeAtIndex(0);
         player.addCardToPlayerHand(dealCard);
+
     }
 
 

@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class GameDriver {
     private int numOfPlayers;
@@ -17,17 +18,15 @@ public class GameDriver {
     // a boolean to keep track whether the game is finished or ongoing
     private boolean isGameFinished;
 
-    private ArrayList<Player> winnersArrayList; // DELETE. Use player status to keep track of whether player is Black Jack or busted
-
 
     // Control the whole game
     public void initGame(ArrayList<Player> players, int deckCount) {
-
+        // turn index starts with 0
         turnIndex = 0;
         playersList = players;
+
         initDeck();
         shuffleDeck();
-
         // add dealer object to the end of the players list
         playersList.add(dealer);
 
@@ -39,7 +38,81 @@ public class GameDriver {
         //  System.out.println(player.getName()+"  "+player.getStatus());
         //}
         showResult();
+
     }
+
+    // return current turn index
+    private int getTurnIndex() {
+        return turnIndex;
+    }
+
+    // return Player Object at turn index
+    private Player getPlayerAtTurnIndex() {
+        return playersList.get(getTurnIndex());
+    }
+
+    // return name of player at turn index
+    private String getNamePlayerAtTurnIndex() {
+        return getPlayerAtTurnIndex().getName();
+    }
+
+    // return phone number of player at turn index
+    private String getPhoneNumberPlayerAtTurnIndex() {
+        return getPlayerAtTurnIndex().getPhoneNumber();
+    }
+
+    /* ALGORITHM: After checking Blackjack and dealer is not Blackjack, traverse and get players' move
+
+    1. Notify name of the player at turn index, show current total and ask for move (stand/ draw).
+
+    2. Get input phone number and move ( LATER: get from user's input in Android Studio).
+
+    3. Compare input phone number and one at turn index.
+
+    4. If correct player, check if move is valid or not.
+
+    5. Otherwise, repeat step 1 until get correct phone number at turn index.
+
+     */
+
+    // Step 1
+    private void introMove() {
+        System.out.println("It's " + getNamePlayerAtTurnIndex() + "'s turn.");
+        System.out.println("Total: " + getPlayerAtTurnIndex().getTotalPointPlayer());
+        System.out.println();
+        System.out.println("Stand/Draw: ");
+
+        //  GETTING PHONE NUMBER IN ANDROID STUDIO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        //System.out.println(" ");
+    }
+
+    // Step 2- Overall
+
+
+
+    // Step 3
+    // compare the phoneNumber at turn index and the given phoneNumber
+    private boolean comparePhoneNumbers(String inputPhoneNumber) {
+        return inputPhoneNumber == getPhoneNumberPlayerAtTurnIndex();
+    }
+
+    private void notifyIfIncorrectPlayerTurn(String incorrectPlayerName){}
+
+    // Step 4
+    private boolean isMoveValid(String givenMove) {
+        return (givenMove.equals("Stand") || givenMove.equals("Draw")) ? true : false;
+    }
+    private String getValidMove() {
+        Scanner scanner = new Scanner(System.in);
+        String move = scanner.next();
+        while (!isMoveValid(move)) {
+            System.out.println("Move is invalid! Input valid move(Stand/Draw): ");
+            move = scanner.next();
+        }
+        return move;
+    }
+
+
 
     // if dealer has Blackjack
     private void ifDealerBlackjack(Player player) {
@@ -47,6 +120,7 @@ public class GameDriver {
             player.setStatusTie();
         } else {
             player.setStatusLose();
+
         }
     }
 
@@ -81,7 +155,7 @@ public class GameDriver {
 
     public void showResult() {
         for (int i = 0; i < playersList.size() - 1; i++) {
-            System.out.println(playersList.get(i) + ": " + playersList.get(i).getStatus());
+            System.out.println(playersList.get(i).getName() + ": " + playersList.get(i).getStatus());
         }
     }
 
@@ -145,6 +219,8 @@ public class GameDriver {
 
         GameDriver gameDriver = new GameDriver();
         gameDriver.initGame(playerArrayList, 1);
+        System.out.println("Fuck you!!!!!");
+
 
         //gameDriver.showPoint();
         //gameDriver.dealStartingCards();
